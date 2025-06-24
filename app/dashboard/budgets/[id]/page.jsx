@@ -48,19 +48,19 @@ export default function BudgetDetail() {
 
       const updatedExpenses = editingExpenseId
         ? b.expenses.map(e =>
-            e.id === editingExpenseId
-              ? { ...e, name: form.expenseName, amount: parseFloat(form.expenseAmount), date: new Date().toISOString().split('T')[0] }
-              : e
-          )
+          e.id === editingExpenseId
+            ? { ...e, name: form.expenseName, amount: parseFloat(form.expenseAmount), date: new Date().toISOString().split('T')[0] }
+            : e
+        )
         : [
-            ...b.expenses,
-            {
-              id: uuidv4(),
-              name: form.expenseName,
-              amount: parseFloat(form.expenseAmount),
-              date: new Date().toISOString().split('T')[0]
-            }
-          ]
+          ...b.expenses,
+          {
+            id: uuidv4(),
+            name: form.expenseName,
+            amount: parseFloat(form.expenseAmount),
+            date: new Date().toISOString().split('T')[0]
+          }
+        ]
 
       return {
         ...b,
@@ -104,9 +104,9 @@ export default function BudgetDetail() {
   }
 
   return (
-    <div className="relative">
+    <div className="relative px-4 sm:px-6 lg:px-8">
       <div className={showModal || confirmDeleteId ? 'blur-sm scale-95 transition-all duration-300' : ''}>
-        <div className="flex justify-between items-center mb-6">
+        <div className="flex flex-col md:flex-row justify-between md:items-center items-start gap-4 mb-6">
           <h2 className="text-2xl font-bold text-white flex items-center gap-2">
             <FileText className="w-6 h-6 text-[#f7e479]" />
             {budget.name}
@@ -143,11 +143,11 @@ export default function BudgetDetail() {
                   <IndianRupee className="w-4 h-4" /> ₹{e.amount}
                 </p>
               </div>
-              <div className="flex justify-between items-center text-sm text-gray-300">
+              <div className="flex flex-wrap justify-between items-center text-sm text-gray-300">
                 <span className="flex items-center gap-1">
                   <Calendar className="w-4 h-4" /> {e.date}
                 </span>
-                <div className="flex gap-3">
+                <div className="flex gap-3 mt-2 sm:mt-0">
                   <button onClick={() => handleEdit(e)}>
                     <Pencil className="w-4 h-4 text-yellow-200 hover:scale-110 transition" />
                   </button>
@@ -163,7 +163,7 @@ export default function BudgetDetail() {
 
       {/* Modal */}
       {showModal && (
-        <div className="fixed inset-0 z-50 flex justify-center items-center backdrop-blur-sm bg-black/40">
+        <div className="fixed inset-0 z-50 flex justify-center items-center px-4 backdrop-blur-sm bg-black/40">
           <div className="bg-white dark:bg-gray-900 p-6 rounded-xl shadow-xl w-full max-w-md relative">
             <button
               onClick={() => {
@@ -182,7 +182,7 @@ export default function BudgetDetail() {
               <div className="flex flex-col gap-1">
                 <label className="text-sm text-gray-600 dark:text-gray-300">Budget Category</label>
                 <input
-                  className="px-3 py-2 rounded border bg-transparent dark:bg-gray-800 text-black dark:text-white"
+                  className="px-3 py-2 rounded border bg-transparent dark:bg-gray-800 text-black dark:text-white w-full"
                   value={form.name}
                   onChange={(e) => setForm({ ...form, name: e.target.value })}
                 />
@@ -191,7 +191,7 @@ export default function BudgetDetail() {
                 <label className="text-sm text-gray-600 dark:text-gray-300">Budget Amount</label>
                 <input
                   type="number"
-                  className="px-3 py-2 rounded border bg-transparent dark:bg-gray-800 text-black dark:text-white"
+                  className="px-3 py-2 rounded border bg-transparent dark:bg-gray-800 text-black dark:text-white w-full"
                   value={form.amount}
                   onChange={(e) => setForm({ ...form, amount: e.target.value })}
                 />
@@ -199,7 +199,7 @@ export default function BudgetDetail() {
               <div className="flex flex-col gap-1">
                 <label className="text-sm text-gray-600 dark:text-gray-300">Expense Name</label>
                 <input
-                  className="px-3 py-2 rounded border bg-transparent dark:bg-gray-800 text-black dark:text-white"
+                  className="px-3 py-2 rounded border bg-transparent dark:bg-gray-800 text-black dark:text-white w-full"
                   value={form.expenseName}
                   onChange={(e) => setForm({ ...form, expenseName: e.target.value })}
                 />
@@ -208,7 +208,7 @@ export default function BudgetDetail() {
                 <label className="text-sm text-gray-600 dark:text-gray-300">Spent Amount</label>
                 <input
                   type="number"
-                  className="px-3 py-2 rounded border bg-transparent dark:bg-gray-800 text-black dark:text-white"
+                  className="px-3 py-2 rounded border bg-transparent dark:bg-gray-800 text-black dark:text-white w-full"
                   value={form.expenseAmount}
                   onChange={(e) => setForm({ ...form, expenseAmount: e.target.value })}
                 />
@@ -226,7 +226,7 @@ export default function BudgetDetail() {
 
       {/* Delete Confirmation Modal */}
       {confirmDeleteId && (
-        <div className="fixed inset-0 z-50 flex justify-center items-center backdrop-blur-sm bg-black/40">
+        <div className="fixed inset-0 z-50 flex justify-center items-center px-4 backdrop-blur-sm bg-black/40">
           <div className="bg-white dark:bg-gray-900 p-6 rounded-xl shadow-2xl w-full max-w-md relative">
             <h3 className="text-lg font-semibold text-center mb-4 flex items-center justify-center gap-2 text-red-600">
               <Trash2 className="w-5 h-5" /> Confirm Deletion
@@ -234,13 +234,12 @@ export default function BudgetDetail() {
             <p className="text-center text-gray-700 dark:text-gray-300 mb-6">
               Are you sure you want to delete this expense? This action cannot be undone.
             </p>
-            <div className="flex justify-center gap-4">
+            <div className="flex justify-center gap-4 flex-wrap">
               <button
                 onClick={handleDeleteConfirmed}
                 className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md font-semibold flex items-center gap-2"
               >
-                <Trash2 className="w-4 h-4" />
-                Delete
+                <Trash2 className="w-4 h-4" /> Delete
               </button>
               <button
                 onClick={() => setConfirmDeleteId(null)}
@@ -254,4 +253,5 @@ export default function BudgetDetail() {
       )}
     </div>
   )
+
 }
